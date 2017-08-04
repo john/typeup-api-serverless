@@ -9,7 +9,9 @@ export async function main(event, context, callback) {
     Item: {
       userId: event.requestContext.identity.cognitoIdentityId,
       statusId: uuid.v1(),
+      title: data.title,
       content: data.content,
+      blocked: data.blocked,
       attachment: data.attachment,
       createdAt: new Date().getTime(),
     },
