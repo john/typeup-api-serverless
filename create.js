@@ -11,12 +11,12 @@ export async function main(event, context, callback) {
       statusId: uuid.v1(),
       title: data.title,
       content: data.content,
-      blocked: data.blocked,
+      userState: data.userState,
       attachment: data.attachment,
       createdAt: new Date().getTime(),
     },
   };
-  
+
   try {
     const result = await dynamoDbLib.call('put', params);
     callback(null, success(params.Item));
