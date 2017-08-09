@@ -1,7 +1,7 @@
 {
   "name": "typeup-app-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "- This is heavily based on the tutorial in http://serverless-stack.com/",
   "main": "handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,20 +10,28 @@
   "author": "john <john@fryolator.com>",
   "license": "ISC",
   "devDependencies": {
-    "aws-sdk": "^2.90.0",
+    "aws-sdk": "^2.94.0",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
     "glob": "^7.1.2",
-    "serverless-webpack": "^2.0.0",
+    "serverless-webpack": "^2.2.0",
     "webpack": "^3.4.1",
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.23.0",
+    "amazon-cognito-identity-js": "^1.19.0",
+    "babel-runtime": "^6.25.0",
     "uuid": "^3.1.0"
   },
-  "repository": "git@github.com:john/typeup-api-serverless.git"
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/john/typeup-api-serverless.git"
+  },
+  "bugs": {
+    "url": "https://github.com/john/typeup-api-serverless/issues"
+  },
+  "homepage": "https://github.com/john/typeup-api-serverless#readme"
 }

@@ -2,7 +2,35 @@
 
 - This is heavily based on the tutorial in http://serverless-stack.com/
 
-## To deploy
+### Setup
+- create dynamodb table
+
+- npm install serverless@1.19.0 -g
+
+npm install serverless-webpack --save-dev
+?
+
+- npm init -y
+- npm install aws-sdk --save-dev
+
+- npm install amazon-cognito-identity-js --save
+
+- npm install uuid --save
+- npm install --save-dev \
+    babel-core \
+    babel-loader \
+    babel-plugin-transform-runtime \
+    babel-preset-es2015 \
+    babel-preset-stage-3 \
+    serverless-webpack \
+    glob \
+    webpack \
+    webpack-node-externals
+- npm install --save babel-runtime
+
+### Test
+
+## Deploy
 - Make sure credentials are set up. If you have a ~/.aws/credentials file, make sure it has a default value. To create that file, run:
 `serverless config credentials --provider aws --key your-key-here --secret your-secret-here`
 
@@ -12,6 +40,14 @@
 
 ### FUCKEDUP
 - When creating the API, the method stuff for cors isn't getting set up correctly, so I had to go in and do it manually:
+  - Go to the method in the API Gateway console
+  - Click 'method execution'
+  - Add a '200' header
+  - Click 'Add Header,' and add:
+    - Access-Control-Allow-Headers
+    - Access-Control-Allow-Origin
+    - Access-Control-Allow-Credentials
+    - Access-Control-Allow-Methods
 - And then you get a new error, about the role not having the correct permissions. You once again have to use the console: go into IAM -> Roles, find the right one (Cognito_TypeUpUserPoolAuth_Role in this case), and attach the managed policies for the API Gateway
 BINGO! How to set this up automatically via serverless.yml?
 
@@ -37,7 +73,7 @@ BINGO! How to set this up automatically via serverless.yml?
   - Turn notifications off (set themselves to inactive)
   - See groups they belong to
   - See past statuses
-  
+
 ### Notes
 - For new deploy, remember you need to edit the Cognito policy document:
 http://serverless-stack.com/chapters/create-a-cognito-identity-pool.html

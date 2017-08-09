@@ -12,9 +12,10 @@ export async function main(event, context, callback) {
     //   userId: event.requestContext.identity.cognitoIdentityId,
     //   statusId: event.pathParameters.id,
     // },
-    Key: {
-      statusId: event.pathParameters.id,
-    },
+      Key: {
+        userId: event.requestContext.identity.cognitoIdentityId,
+        statusId: event.pathParameters.id,
+      },
   };
 
   try {

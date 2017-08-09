@@ -32,9 +32,28 @@ provider:
 #   S3 bucket
 #   Cognito user pool (current pool arn: arn:aws:cognito-idp:us-west-2:402153944964:userpool/us-west-2_7TooDx4yJ)
 #   Cognito App client (current id: 2sdk53svubdtll8gigcscjb0an)
-  
+
 functions:
-  
+
+  users:
+    handler: users.main
+    events:
+      - http:
+          path: users
+          method: get
+          # cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+          authorizer: aws_iam
+
   create:
     # Defines an HTTP API endpoint that calls the main function in create.js
     # - path: url path is /statuses
@@ -47,9 +66,19 @@ functions:
       - http:
           path: statuses
           method: post
-          cors: true
+          # cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
           authorizer: aws_iam
-          
+
   get:
     # Defines an HTTP API endpoint that calls the main function in get.js
     # - path: url path is /statuses/{id}
@@ -60,8 +89,18 @@ functions:
           path: statuses/{id}
           method: get
           cors: true
+          # cors:
+          #   origin: '*'
+          #   headers:
+          #     - Content-Type
+          #     - X-Amz-Date
+          #     - Authorization
+          #     - X-Api-Key
+          #     - X-Amz-Security-Token
+          #     - X-Amz-User-Agent
+          #   allowCredentials: false
           authorizer: aws_iam
-                  
+
   list:
     # Defines an HTTP API endpoint that calls the main function in list.js
     # - path: url path is /statuses
@@ -71,9 +110,19 @@ functions:
       - http:
           path: statuses
           method: get
-          cors: true
+          # cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
           authorizer: aws_iam
-            
+
   update:
     # Defines an HTTP API endpoint that calls the main function in update.js
     # - path: url path is /statuses/{id}
@@ -83,9 +132,19 @@ functions:
       - http:
           path: statuses/{id}
           method: put
-          cors: true
+          # cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
           authorizer: aws_iam
-          
+
   delete:
     # Defines an HTTP API endpoint that calls the main function in delete.js
     # - path: url path is /statuses/{id}
@@ -95,6 +154,15 @@ functions:
       - http:
           path: statuses/{id}
           method: delete
-          cors: true
+          # cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
           authorizer: aws_iam
-          
