@@ -77,12 +77,42 @@ module.exports = require("babel-runtime/helpers/asyncToGenerator");
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.call = call;
+
+var _awsSdk = __webpack_require__(3);
+
+var _awsSdk2 = _interopRequireDefault(_awsSdk);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// If you have multiple AWS profiles in your credential, specify which to use
+// const credentials = new AWS.SharedIniFileCredentials({profile: 'my-profile'})
+// AWS.config.credentials = credentials;
+
+_awsSdk2.default.config.update({ region: 'us-west-2' });
+
+function call(action, params) {
+  var dynamoDb = new _awsSdk2.default.DynamoDB.DocumentClient();
+
+  return dynamoDb[action](params).promise();
+}
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 module.exports = require("aws-sdk");
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -92,7 +122,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _stringify = __webpack_require__(4);
+var _stringify = __webpack_require__(5);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -121,40 +151,10 @@ function buildResponse(statusCode, body) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/json/stringify");
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.call = call;
-
-var _awsSdk = __webpack_require__(2);
-
-var _awsSdk2 = _interopRequireDefault(_awsSdk);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// If you have multiple AWS profiles in your credential, specify which to use
-// const credentials = new AWS.SharedIniFileCredentials({profile: 'my-profile'})
-// AWS.config.credentials = credentials;
-
-_awsSdk2.default.config.update({ region: 'us-west-2' });
-
-function call(action, params) {
-  var dynamoDb = new _awsSdk2.default.DynamoDB.DocumentClient();
-
-  return dynamoDb[action](params).promise();
-}
 
 /***/ }),
 /* 6 */,
@@ -187,9 +187,12 @@ var main = exports.main = function () {
           case 0:
             params = {
               TableName: 'statuses',
+              // 'Key' defines the partition key and sort key of the item to be removed
+              // - 'userId': Identity Pool identity id of the authenticated user
+              // - 'noteId': path parameter
               Key: {
-                userId: event.requestContext.identity.cognitoIdentityId,
-                statusId: event.pathParameters.id
+                createdAt: event.requestContext.identity.cognitoIdentityId,
+                userId: event.pathParameters.id
               }
             };
             _context.prev = 1;
@@ -222,11 +225,11 @@ var main = exports.main = function () {
   };
 }();
 
-var _dynamodbLib = __webpack_require__(5);
+var _dynamodbLib = __webpack_require__(2);
 
 var dynamoDbLib = _interopRequireWildcard(_dynamodbLib);
 
-var _responseLib = __webpack_require__(3);
+var _responseLib = __webpack_require__(4);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 

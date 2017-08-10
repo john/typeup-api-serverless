@@ -35,12 +35,31 @@ provider:
 
 functions:
 
-  users:
-    handler: users.main
+  list_users:
+    handler: list_users.main
     events:
       - http:
           path: users
           method: get
+          # cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+          authorizer: aws_iam
+
+  create_user:
+    handler: create_user.main
+    events:
+      - http:
+          path: users
+          method: post
           # cors: true
           cors:
             origin: '*'

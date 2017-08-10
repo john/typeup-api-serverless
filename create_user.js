@@ -4,19 +4,14 @@ import { success, failure } from './libs/response-lib';
 
 export async function main(event, context, callback) {
 
-  // console.log(".authorizer.principalId: " + event.requestContext.authorizer.principalId);
   const data = JSON.parse(event.body);
   const params = {
-    TableName: 'statuses',
+    TableName: 'users',
     Item: {
-      statusId: uuid.v1(),
       userId: uuid.v1(),
       cognitoIdentityId: event.requestContext.identity.cognitoIdentityId,
-      title: data.title,
-      content: data.content,
-      userState: data.userState,
-      attachment: data.attachment,
-      // day: 2017-08-17
+      username: data.username,
+      email: data.email,
       createdAt: new Date().getTime(),
     },
   };
@@ -30,3 +25,6 @@ export async function main(event, context, callback) {
   }
 
 };
+
+
+// TODO: return the userId, put it into props, and include it with each status object when creating those.

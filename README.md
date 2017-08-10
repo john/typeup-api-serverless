@@ -55,7 +55,12 @@ BINGO! How to set this up automatically via serverless.yml?
 ### TODO
 
 
-- Support 'title' field for status
+- The client is doing the authing right now. How to protect the API? Actually maybe already done
+- https://aws.amazon.com/blogs/mobile/integrating-amazon-cognito-user-pools-with-api-gateway/
+
+- need a POST method to /users to add a user to ddb
+- need a GET method on /users to get all users.
+
 - serverless.yml should create the S3 bucket for uploads
 - Get statuses by date
   - Allow 'today' call to get that days statuses

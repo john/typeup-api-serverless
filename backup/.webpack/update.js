@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -77,12 +77,42 @@ module.exports = require("babel-runtime/helpers/asyncToGenerator");
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.call = call;
+
+var _awsSdk = __webpack_require__(3);
+
+var _awsSdk2 = _interopRequireDefault(_awsSdk);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// If you have multiple AWS profiles in your credential, specify which to use
+// const credentials = new AWS.SharedIniFileCredentials({profile: 'my-profile'})
+// AWS.config.credentials = credentials;
+
+_awsSdk2.default.config.update({ region: 'us-west-2' });
+
+function call(action, params) {
+  var dynamoDb = new _awsSdk2.default.DynamoDB.DocumentClient();
+
+  return dynamoDb[action](params).promise();
+}
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 module.exports = require("aws-sdk");
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -92,7 +122,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _stringify = __webpack_require__(4);
+var _stringify = __webpack_require__(5);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -121,51 +151,18 @@ function buildResponse(statusCode, body) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.call = call;
-
-var _awsSdk = __webpack_require__(2);
-
-var _awsSdk2 = _interopRequireDefault(_awsSdk);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// If you have multiple AWS profiles in your credential, specify which to use
-// const credentials = new AWS.SharedIniFileCredentials({profile: 'my-profile'})
-// AWS.config.credentials = credentials;
-
-_awsSdk2.default.config.update({ region: 'us-west-2' });
-
-function call(action, params) {
-  var dynamoDb = new _awsSdk2.default.DynamoDB.DocumentClient();
-
-  return dynamoDb[action](params).promise();
-}
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = require("uuid");
-
-/***/ }),
+/* 6 */,
 /* 7 */,
 /* 8 */,
-/* 9 */
+/* 9 */,
+/* 10 */,
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -186,45 +183,45 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var main = exports.main = function () {
   var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(event, context, callback) {
-    var params, result;
+    var data, params, result;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            data = JSON.parse(event.body);
             params = {
               TableName: 'statuses',
-              // 'Key' defines the partition key and sort key of the item to be retrieved
+              // 'Key' defines the partition key and sort key of the item to be updated
               // - 'userId': Identity Pool identity id of the authenticated user
               // - 'noteId': path parameter
-              // Key: {
-              //   userId: event.requestContext.identity.cognitoIdentityId,
-              //   statusId: event.pathParameters.id,
-              // },
               Key: {
                 userId: event.requestContext.identity.cognitoIdentityId,
                 statusId: event.pathParameters.id
-              }
+              },
+              // 'UpdateExpression' defines the attributes to be updated
+              // 'ExpressionAttributeValues' defines the value in the update expression
+              UpdateExpression: 'SET content = :content, attachment = :attachment',
+              ExpressionAttributeValues: {
+                ':attachment': data.attachment ? data.attachment : null,
+                ':content': data.content ? data.content : null
+              },
+              ReturnValues: 'ALL_NEW'
             };
-            _context.prev = 1;
-            _context.next = 4;
-            return dynamoDbLib.call('get', params);
+            _context.prev = 2;
+            _context.next = 5;
+            return dynamoDbLib.call('update', params);
 
-          case 4:
+          case 5:
             result = _context.sent;
 
-            if (result.Item) {
-              callback(null, (0, _responseLib.success)(result.Item));
-            } else {
-              callback(null, (0, _responseLib.failure)({ status: false, error: 'Item not found.' }));
-            }
+            callback(null, (0, _responseLib.success)({ status: true }));
             _context.next = 12;
             break;
 
-          case 8:
-            _context.prev = 8;
-            _context.t0 = _context['catch'](1);
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context['catch'](2);
 
-            console.log(_context.t0);
             callback(null, (0, _responseLib.failure)({ status: false }));
 
           case 12:
@@ -232,7 +229,7 @@ var main = exports.main = function () {
             return _context.stop();
         }
       }
-    }, _callee, this, [[1, 8]]);
+    }, _callee, this, [[2, 9]]);
   }));
 
   return function main(_x, _x2, _x3) {
@@ -240,15 +237,11 @@ var main = exports.main = function () {
   };
 }();
 
-var _uuid = __webpack_require__(6);
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
-var _dynamodbLib = __webpack_require__(5);
+var _dynamodbLib = __webpack_require__(2);
 
 var dynamoDbLib = _interopRequireWildcard(_dynamodbLib);
 
-var _responseLib = __webpack_require__(3);
+var _responseLib = __webpack_require__(4);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 

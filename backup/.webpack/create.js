@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -77,12 +77,42 @@ module.exports = require("babel-runtime/helpers/asyncToGenerator");
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.call = call;
+
+var _awsSdk = __webpack_require__(3);
+
+var _awsSdk2 = _interopRequireDefault(_awsSdk);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// If you have multiple AWS profiles in your credential, specify which to use
+// const credentials = new AWS.SharedIniFileCredentials({profile: 'my-profile'})
+// AWS.config.credentials = credentials;
+
+_awsSdk2.default.config.update({ region: 'us-west-2' });
+
+function call(action, params) {
+  var dynamoDb = new _awsSdk2.default.DynamoDB.DocumentClient();
+
+  return dynamoDb[action](params).promise();
+}
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 module.exports = require("aws-sdk");
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -92,7 +122,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _stringify = __webpack_require__(4);
+var _stringify = __webpack_require__(5);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -121,20 +151,19 @@ function buildResponse(statusCode, body) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = require("uuid");
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -155,109 +184,70 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var main = exports.main = function () {
   var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(event, context, callback) {
-    var params, cognitoidentityserviceprovider;
+    var data, params, result;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            // const params = {
-            //   TableName: 'statuses',
-            //   // 'KeyConditionExpression' defines the condition for the query
-            //   // - 'userId = :userId': only return items with matching 'userId' partition key
-            //   // 'ExpressionAttributeValues' defines the value in the condition
-            //   // - ':userId': defines 'userId' to be Identity Pool identity id of the authenticated user
-            //   KeyConditionExpression: "userId = :userId",
-            //   ExpressionAttributeValues: {
-            //     ":userId": event.requestContext.identity.cognitoIdentityId,
-            //   }
-            // };
-
-            // from: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#listUsers-property
-            // move this to a cognito-config.js file
-            // const cognito: {
-            //   REGION: 'us-west-2',
-            //   USER_POOL_ID : 'us-west-2_7TooDx4yJ',
-            //   APP_CLIENT_ID : '2sdk53svubdtll8gigcscjb0an',
-            //   IDENTITY_POOL_ID: 'us-west-2:a29de7a9-b998-43cf-913d-201086b4442e',
-            // }
-
+            data = JSON.parse(event.body);
             params = {
-              UserPoolId: 'us-west-2_7TooDx4yJ', /* required */
-              AttributesToGet: ['Username']
-              // Filter: 'STRING_VALUE',
-              // Limit: 0,
-              // PaginationToken: 'STRING_VALUE'
+              TableName: 'statuses',
+              Item: {
+                userId: event.requestContext.identity.cognitoIdentityId,
+                statusId: _uuid2.default.v1(),
+                title: data.title,
+                content: data.content,
+                userState: data.userState,
+                attachment: data.attachment,
+                createdAt: new Date().getTime()
+              }
             };
+            _context.prev = 2;
+            _context.next = 5;
+            return dynamoDbLib.call('put', params);
 
+          case 5:
+            result = _context.sent;
 
-            try {
-              // const result = await dynamoDbLib.call('query', params);
-              // Return the matching list of items in response body
+            callback(null, (0, _responseLib.success)(params.Item));
+            _context.next = 13;
+            break;
 
-              // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#listUsers-property
-              // const result = await CognitoUserPool.call('something' params)
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context['catch'](2);
 
+            console.log(_context.t0);
+            callback(null, (0, _responseLib.failure)({ status: false }));
 
-              // Instead of stuff below try just instantiating a cognito userpool direction, as in login.js on the client:
-              // const userPool = new CognitoUserPool({
-              //   UserPoolId: config.cognito.USER_POOL_ID,
-              //   ClientId: config.cognito.APP_CLIENT_ID
-              // });
-
-
-              cognitoidentityserviceprovider = new _awsSdk2.default.CognitoIdentityServiceProvider();
-              // cognitoidentityserviceprovider.adminForgetDevice(params, function (err, data) {
-              //   if (err) console.log(err, err.stack); // an error occurred
-              //   else     console.log(data);           // successful response
-              // });
-
-              cognitoidentityserviceprovider.listUsers(params, function (err, data) {
-                if (err) {
-                  console.log(err, err.stack); // an error occurred
-                } else {
-                  // console.log(data);           // successful response
-                  return data;
-                }
-              });
-
-              callback(null, (0, _responseLib.success)(result.Items));
-            } catch (e) {
-              console.log(e);
-              callback(null, (0, _responseLib.failure)({ status: false }));
-            }
-
-          case 2:
+          case 13:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this);
+    }, _callee, this, [[2, 9]]);
   }));
 
   return function main(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
-}(); // replace with something calling cognito, unless it turns out you need to create a 'users' table in ddb
-// import * as dynamoDbLib from './libs/dynamodb-lib';
+}();
 
+var _uuid = __webpack_require__(6);
 
-var _responseLib = __webpack_require__(3);
+var _uuid2 = _interopRequireDefault(_uuid);
 
-var _awsSdk = __webpack_require__(2);
+var _dynamodbLib = __webpack_require__(2);
 
-var _awsSdk2 = _interopRequireDefault(_awsSdk);
+var dynamoDbLib = _interopRequireWildcard(_dynamodbLib);
 
-var _amazonCognitoIdentityJs = __webpack_require__(13);
+var _responseLib = __webpack_require__(4);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 ;
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-module.exports = require("amazon-cognito-identity-js");
 
 /***/ })
 /******/ ])));
