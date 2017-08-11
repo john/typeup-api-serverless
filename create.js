@@ -17,7 +17,7 @@ export async function main(event, context, callback) {
       userState: data.userState,
       attachment: data.attachment,
       // day: 2017-08-17
-      createdAt: new Date().getTime(),
+      createdAt: new Date().toISOString(),
     },
   };
 

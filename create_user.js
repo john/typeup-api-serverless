@@ -8,11 +8,11 @@ export async function main(event, context, callback) {
   const params = {
     TableName: 'users',
     Item: {
-      userId: uuid.v1(),
+      id: uuid.v1(),
       cognitoIdentityId: event.requestContext.identity.cognitoIdentityId,
-      username: data.username,
+      name: data.name,
       email: data.email,
-      createdAt: new Date().getTime(),
+      createdAt: new Date().toISOString(),
     },
   };
 
@@ -23,8 +23,4 @@ export async function main(event, context, callback) {
     console.log(e);
     callback(null, failure({status: false}));
   }
-
 };
-
-
-// TODO: return the userId, put it into props, and include it with each status object when creating those.

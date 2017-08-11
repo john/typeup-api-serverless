@@ -33,6 +33,21 @@ provider:
 #   Cognito user pool (current pool arn: arn:aws:cognito-idp:us-west-2:402153944964:userpool/us-west-2_7TooDx4yJ)
 #   Cognito App client (current id: 2sdk53svubdtll8gigcscjb0an)
 
+# DynamoDB tables:
+# - users
+#   - field: id, email, name
+#  - primary index on id, sort by name
+#  - secondary index on cognitoId, sort by name
+#  - Main query: get all users sorted by name.
+
+# FOR COGNITO: username should be email, email should be email, add name to a 'name' attribute field
+
+# - statuses
+#  - primary index on id, sorty by createdAt.
+#  - secondary index on... do we need a secondary index
+#  - Main query: get a user's most recent status, so query by userId, sort by createdAt, get most recent. Then in code, check if it's from today
+#
+
 functions:
 
   list_users:
