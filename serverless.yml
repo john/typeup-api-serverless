@@ -73,14 +73,14 @@ functions:
             allowCredentials: false
           authorizer: aws_iam
 
-  create:
+  status_create:
     # Defines an HTTP API endpoint that calls the main function in create.js
     # - path: url path is /statuses
     # - method: POST request
     # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
     #     domain api call
     # - authorizer: authenticate using the AWS IAM role
-    handler: create.main
+    handler: status_create.main
     events:
       - http:
           path: statuses

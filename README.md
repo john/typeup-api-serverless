@@ -3,7 +3,9 @@
 - This is heavily based on the tutorial in http://serverless-stack.com/
 
 ### Setup
-- create dynamodb table
+- create dynamodb tables
+  - 'users' has index on userId
+  - 'statuses' has index on
 
 - npm install serverless@1.19.0 -g
 
