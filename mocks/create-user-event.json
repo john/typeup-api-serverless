@@ -1,0 +1,8 @@
+{
+  "body": "{\"userName\":\"john@fnnn.com\",\"email\":\"john@fnnn.com\",\"name\":\"bob\"}",
+  "requestContext": {
+    "identity": {
+      "cognitoIdentityId": "us-west-2:b7fde2bd-857e-4167-852a-6c199bc1d165"
+    }
+  }
+}
