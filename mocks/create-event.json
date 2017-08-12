@@ -2,7 +2,7 @@
   "body": "{\"title\":\"the title\",\"userState\":\"i am so blocked.\",\"content\":\"hello world\",\"attachment\":\"hello.jpg\"}",
   "requestContext": {
     "identity": {
-      "cognitoIdentityId": "USER-SUB-1234"
+      "cognitoIdentityId": "us-west-2:b7fde2bd-857e-4167-852a-6c199bc1d165"
     }
   }
 }
