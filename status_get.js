@@ -5,16 +5,8 @@ import { success, failure } from './libs/response-lib';
 export async function main(event, context, callback) {
   const params = {
     TableName: 'statuses',
-    // 'Key' defines the partition key and sort key of the item to be retrieved
-    // - 'userId': Identity Pool identity id of the authenticated user
-    // - 'noteId': path parameter
-    // Key: {
-    //   userId: event.requestContext.identity.cognitoIdentityId,
-    //   statusId: event.pathParameters.id,
-    // },
       Key: {
-        userId: event.requestContext.identity.cognitoIdentityId,
-        statusId: event.pathParameters.id,
+        statusId: event.pathParameters.statusId,
       },
   };
 

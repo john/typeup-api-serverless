@@ -98,26 +98,16 @@ functions:
             allowCredentials: false
           authorizer: aws_iam
 
-  get:
+  status_get:
     # Defines an HTTP API endpoint that calls the main function in get.js
     # - path: url path is /statuses/{id}
     # - method: GET request
-    handler: get.main
+    handler: status_get.main
     events:
       - http:
           path: statuses/{id}
           method: get
           cors: true
-          # cors:
-          #   origin: '*'
-          #   headers:
-          #     - Content-Type
-          #     - X-Amz-Date
-          #     - Authorization
-          #     - X-Api-Key
-          #     - X-Amz-Security-Token
-          #     - X-Amz-User-Agent
-          #   allowCredentials: false
           authorizer: aws_iam
 
   list:
