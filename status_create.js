@@ -4,11 +4,11 @@ import { success, failure } from './libs/response-lib';
 
 export async function main(event, context, callback) {
   const data = JSON.parse(event.body);
-
+  const statusId = uuid.v1();
   const status_params = {
     TableName: 'statuses',
     Item: {
-      statusId: uuid.v1(),
+      statusId: statusId,
       cognitoIdentityId: event.requestContext.identity.cognitoIdentityId,
       userName: data.userName,
       title: data.title,
@@ -28,8 +28,9 @@ export async function main(event, context, callback) {
       // cognitoIdentityId: event.requestContext.identity.cognitoIdentityId,
       userName: data.userName,
     },
-    UpdateExpression: 'set last_status_title = :t, last_status_content = :c, last_status_createdAt = :ca',
+    UpdateExpression: 'set last_status_id=:sid, last_status_title = :t, last_status_content = :c, last_status_createdAt = :ca',
     ExpressionAttributeValues:{
+      ":sid": statusId
       ":t": data.title,
       ":c": data.content,
       ":ca": new Date().toISOString(),

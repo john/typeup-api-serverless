@@ -8,11 +8,11 @@ export async function main(event, context, callback) {
 
   try {
     const results = await dynamoDbLib.call('scan', params);
-    
+
     callback(null, success(results.Items));
   } catch(e) {
     console.log(e);
-    
+
     callback(null, failure({status: false}));
   }
 
