@@ -30,7 +30,7 @@ export async function main(event, context, callback) {
     },
     UpdateExpression: 'set last_status_id=:sid, last_status_title = :t, last_status_content = :c, last_status_createdAt = :ca',
     ExpressionAttributeValues:{
-      ":sid": statusId
+      ":sid": statusId,
       ":t": data.title,
       ":c": data.content,
       ":ca": new Date().toISOString(),

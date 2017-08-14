@@ -186,16 +186,17 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var main = exports.main = function () {
   var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(event, context, callback) {
-    var data, status_params, user_params, status_result, user_result;
+    var data, statusId, status_params, user_params, status_result, user_result;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             data = JSON.parse(event.body);
+            statusId = _uuid2.default.v1();
             status_params = {
               TableName: 'statuses',
               Item: {
-                statusId: _uuid2.default.v1(),
+                statusId: statusId,
                 cognitoIdentityId: event.requestContext.identity.cognitoIdentityId,
                 userName: data.userName,
                 title: data.title,
@@ -216,8 +217,9 @@ var main = exports.main = function () {
                 // cognitoIdentityId: event.requestContext.identity.cognitoIdentityId,
                 userName: data.userName
               },
-              UpdateExpression: 'set last_status_title = :t, last_status_content = :c, last_status_createdAt = :ca',
+              UpdateExpression: 'set last_status_id=:sid, last_status_title = :t, last_status_content = :c, last_status_createdAt = :ca',
               ExpressionAttributeValues: {
+                ":sid": statusId,
                 ":t": data.title,
                 ":c": data.content,
                 ":ca": new Date().toISOString()
@@ -226,36 +228,36 @@ var main = exports.main = function () {
 
               // separate failure statuses for user vs status
             };
-            _context.prev = 3;
-            _context.next = 6;
+            _context.prev = 4;
+            _context.next = 7;
             return dynamoDbLib.call('put', status_params);
 
-          case 6:
+          case 7:
             status_result = _context.sent;
-            _context.next = 9;
+            _context.next = 10;
             return dynamoDbLib.call('update', user_params);
 
-          case 9:
+          case 10:
             user_result = _context.sent;
 
 
             callback(null, (0, _responseLib.success)(status_params.Item));
-            _context.next = 17;
+            _context.next = 18;
             break;
 
-          case 13:
-            _context.prev = 13;
-            _context.t0 = _context['catch'](3);
+          case 14:
+            _context.prev = 14;
+            _context.t0 = _context['catch'](4);
 
             console.log(_context.t0);
             callback(null, (0, _responseLib.failure)({ status: false }));
 
-          case 17:
+          case 18:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[3, 13]]);
+    }, _callee, this, [[4, 14]]);
   }));
 
   return function main(_x, _x2, _x3) {

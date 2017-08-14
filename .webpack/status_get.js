@@ -192,17 +192,22 @@ var main = exports.main = function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+
+            console.log("-----------------> starting main in status_get");
+
             params = {
               TableName: 'statuses',
               Key: {
-                statusId: event.pathParameters.statusId
+                statusId: event.pathParameters.id
               }
             };
-            _context.prev = 1;
-            _context.next = 4;
+            _context.prev = 2;
+
+            console.log('-----------------> key: ' + params.Key.statusId);
+            _context.next = 6;
             return dynamoDbLib.call('get', params);
 
-          case 4:
+          case 6:
             result = _context.sent;
 
             if (result.Item) {
@@ -210,22 +215,22 @@ var main = exports.main = function () {
             } else {
               callback(null, (0, _responseLib.failure)({ status: false, error: 'Item not found.' }));
             }
-            _context.next = 12;
+            _context.next = 14;
             break;
 
-          case 8:
-            _context.prev = 8;
-            _context.t0 = _context['catch'](1);
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context['catch'](2);
 
             console.log(_context.t0);
             callback(null, (0, _responseLib.failure)({ status: false }));
 
-          case 12:
+          case 14:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[1, 8]]);
+    }, _callee, this, [[2, 10]]);
   }));
 
   return function main(_x, _x2, _x3) {
