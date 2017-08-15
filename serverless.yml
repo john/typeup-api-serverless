@@ -100,7 +100,7 @@ functions:
 
   status_get:
     # Defines an HTTP API endpoint that calls the main function in get.js
-    # - path: url path is /statuses/{id}
+    # - path: url path is /statuses/{statusId}
     # - method: GET request
     handler: status_get.main
     events:
@@ -108,10 +108,6 @@ functions:
           path: statuses/{statusId}
           method: get
           cors: true
-          request:
-            parameters:
-              paths:
-                statusId: true
           authorizer: aws_iam
 
   list:
@@ -138,12 +134,12 @@ functions:
 
   update:
     # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /statuses/{id}
+    # - path: url path is /statuses/{statusId}
     # - method: PUT request
     handler: update.main
     events:
       - http:
-          path: statuses/{id}
+          path: statuses/{statusId}
           method: put
           # cors: true
           cors:
@@ -160,12 +156,12 @@ functions:
 
   delete:
     # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /statuses/{id}
+    # - path: url path is /statuses/{statusId}
     # - method: DELETE request
     handler: delete.main
     events:
       - http:
-          path: statuses/{id}
+          path: statuses/{statusId}
           method: delete
           # cors: true
           cors:
