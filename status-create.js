@@ -5,7 +5,7 @@ import { success, failure } from './libs/response-lib';
 export async function main(event, context, callback) {
   const data = JSON.parse(event.body);
   const statusId = uuid.v1();
-  
+
   var statusItem ={
     statusId: statusId,
     cognitoIdentityId: event.requestContext.identity.cognitoIdentityId,
@@ -16,14 +16,7 @@ export async function main(event, context, callback) {
     attachment: data.attachment,
     createdAt: new Date().toISOString(),
   }
-  
-  // var userUpdateExpression = 'set last_status_id=:sid, last_status_title = :t, last_status_createdAt = :ca, last_status_attachment = :lsa'
-  // var userAttributeValues = {
-  //   ":sid": statusId,
-  //   ":t": data.title,
-  //   ":ca": new Date().toISOString(),
-  //   ":lsa": data.attachment,
-  // }
+
   var userUpdateExpression = 'set last_status_id=:sid, last_status_title = :t, last_status_content = :c, last_status_createdAt = :ca, last_status_attachment = :lsa'
   var userAttributeValues = {
     ":sid": statusId,
@@ -32,22 +25,17 @@ export async function main(event, context, callback) {
     ":ca": new Date().toISOString(),
     ":lsa": data.attachment,
   }
-  
+
   if( data.content ) {
     statusItem.content = data.content
     userAttributeValues[":c"] = data.content
   }
-  // if( data.content ) {
-  //   statusItem.content = data.content
-  //   userUpdateExpression += ', last_status_content = :c'
-  //   userAttributeValues[":c"] = data.content
-  // }
-    
+
   const status_params = {
     TableName: 'statuses',
     Item: statusItem,
   };
-  
+
   const user_update_params = {
     TableName: 'users',
     Key: {

@@ -35,52 +35,14 @@ provider:
 
 functions:
 
-  users_list:
-    handler: users_list.main
-    events:
-      - http:
-          path: users
-          method: get
-          # cors: true
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
-          authorizer: aws_iam
-
-  users_create:
-    handler: users_create.main
-    events:
-      - http:
-          path: users
-          method: post
-          # cors: true
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
-          authorizer: aws_iam
-
-  status_create:
+  status-create:
     # Defines an HTTP API endpoint that calls the main function in create.js
     # - path: url path is /statuses
     # - method: POST request
     # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
     #     domain api call
     # - authorizer: authenticate using the AWS IAM role
-    handler: status_create.main
+    handler: status-create.main
     events:
       - http:
           path: statuses
@@ -98,11 +60,11 @@ functions:
             allowCredentials: false
           authorizer: aws_iam
 
-  status_get:
+  status-get:
     # Defines an HTTP API endpoint that calls the main function in get.js
     # - path: url path is /statuses/{statusId}
     # - method: GET request
-    handler: status_get.main
+    handler: status-get.main
     events:
       - http:
           path: statuses/{statusId}
@@ -110,11 +72,11 @@ functions:
           cors: true
           authorizer: aws_iam
 
-  list:
+  status-list:
     # Defines an HTTP API endpoint that calls the main function in list.js
     # - path: url path is /statuses
     # - method: GET request
-    handler: list.main
+    handler: status-list.main
     events:
       - http:
           path: statuses
@@ -132,11 +94,11 @@ functions:
             allowCredentials: false
           authorizer: aws_iam
 
-  update:
+  status-update:
     # Defines an HTTP API endpoint that calls the main function in update.js
     # - path: url path is /statuses/{statusId}
     # - method: PUT request
-    handler: update.main
+    handler: status-update.main
     events:
       - http:
           path: statuses/{statusId}
@@ -154,15 +116,53 @@ functions:
             allowCredentials: false
           authorizer: aws_iam
 
-  delete:
+  status-delete:
     # Defines an HTTP API endpoint that calls the main function in delete.js
     # - path: url path is /statuses/{statusId}
     # - method: DELETE request
-    handler: delete.main
+    handler: status-delete.main
     events:
       - http:
           path: statuses/{statusId}
           method: delete
+          # cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+          authorizer: aws_iam
+
+  users-list:
+    handler: users-list.main
+    events:
+      - http:
+          path: users
+          method: get
+          # cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+          authorizer: aws_iam
+
+  users-create:
+    handler: users-create.main
+    events:
+      - http:
+          path: users
+          method: post
           # cors: true
           cors:
             origin: '*'

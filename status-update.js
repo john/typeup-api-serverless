@@ -3,11 +3,14 @@ import { success, failure } from './libs/response-lib';
 
 export async function main(event, context, callback) {
   const data = JSON.parse(event.body);
+
+  // NEED to update both statuses & user. This may never get used, right now the client just creates
+  // a new status, which updates the user.
+
   const params = {
     TableName: 'statuses',
     Key: {
-      userId: event.requestContext.identity.cognitoIdentityId,
-      statusId: event.pathParameters.id,
+      statusId: statusId,
     },
     UpdateExpression: 'SET content = :content, attachment = :attachment',
     ExpressionAttributeValues: {
