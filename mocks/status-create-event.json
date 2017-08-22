@@ -1,5 +1,5 @@
 {
-  "body": "{\"statusId\":\"foo\",\"title\":\"the title\",\"userState\":\"i am so blocked.\",\"content\":\"hello world\",\"attachment\":\"hello.jpg\"}",
+  "body": "{\"title\":\"the title\",\"userName\":\"john\",\"userState\":\"i am so blocked.\",\"content\":\"hello world\",\"attachment\":\"hello.jpg\"}",
   "requestContext": {
     "identity": {
       "cognitoIdentityId": "us-west-2:b7fde2bd-857e-4167-852a-6c199bc1d165"
