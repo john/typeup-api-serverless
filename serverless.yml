@@ -27,43 +27,61 @@ provider:
       Resource: "arn:aws:dynamodb:us-west-2:*:*"
 
 
-# resources:
-#   dynamoDB table
-#   S3 bucket
-#   Cognito user pool (current pool arn: arn:aws:cognito-idp:us-west-2:402153944964:userpool/us-west-2_7TooDx4yJ)
-#   Cognito App client (current id: 2sdk53svubdtll8gigcscjb0an)
+resources:
+  Resources:
+        
+    statusesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: statuses
+        AttributeDefinitions:
+          - AttributeName: statusId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: statusId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+          
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: users
+        AttributeDefinitions:
+          - AttributeName: userName
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userName
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+          
+    attachmentsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: attachments345-${opt:stage}
+        AccessControl: 'PublicReadWrite'
+  
+        #   S3 bucket
+        #   Cognito user pool (current pool arn: arn:aws:cognito-idp:us-west-2:402153944964:userpool/us-west-2_7TooDx4yJ)
+        #   Cognito App client (current id: 2sdk53svubdtll8gigcscjb0an)
 
 functions:
 
+  # POST /statuses
   status-create:
-    # Defines an HTTP API endpoint that calls the main function in create.js
-    # - path: url path is /statuses
-    # - method: POST request
-    # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
-    #     domain api call
-    # - authorizer: authenticate using the AWS IAM role
     handler: status-create.main
     events:
       - http:
           path: statuses
           method: post
-          # cors: true
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
+          cors: true
           authorizer: aws_iam
 
+  # GET /statuses/{statusId}
   status-get:
-    # Defines an HTTP API endpoint that calls the main function in get.js
-    # - path: url path is /statuses/{statusId}
-    # - method: GET request
     handler: status-get.main
     events:
       - http:
@@ -72,106 +90,51 @@ functions:
           cors: true
           authorizer: aws_iam
 
+  # GET /statuses
   status-list:
-    # Defines an HTTP API endpoint that calls the main function in list.js
-    # - path: url path is /statuses
-    # - method: GET request
     handler: status-list.main
     events:
       - http:
           path: statuses
           method: get
-          # cors: true
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
+          cors: true
           authorizer: aws_iam
 
+  # PUT /statuses/{statusId}
   status-update:
-    # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /statuses/{statusId}
-    # - method: PUT request
     handler: status-update.main
     events:
       - http:
           path: statuses/{statusId}
           method: put
-          # cors: true
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
-          authorizer: aws_iam
+          cors: true
 
+  # DELETE /statuses/{statusId}
   status-delete:
-    # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /statuses/{statusId}
-    # - method: DELETE request
     handler: status-delete.main
     events:
       - http:
           path: statuses/{statusId}
           method: delete
-          # cors: true
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
+          cors: true
           authorizer: aws_iam
-
+  
+  # GET /users
   users-list:
     handler: users-list.main
     events:
       - http:
           path: users
           method: get
-          # cors: true
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
+          cors: true
           authorizer: aws_iam
 
+  # POST /users
   users-create:
     handler: users-create.main
     events:
       - http:
           path: users
           method: post
-          # cors: true
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
+          cors: true
           authorizer: aws_iam
