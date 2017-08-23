@@ -119,9 +119,19 @@ functions:
           cors: true
           authorizer: aws_iam
   
+  # GET /users/{userName}
+  user-get:
+    handler: user-get.main
+    events:
+      - http:
+          path: users/{userName}
+          method: get
+          cors: true
+          authorizer: aws_iam
+          
   # GET /users
-  users-list:
-    handler: users-list.main
+  user-list:
+    handler: user-list.main
     events:
       - http:
           path: users
@@ -130,8 +140,8 @@ functions:
           authorizer: aws_iam
 
   # POST /users
-  users-create:
-    handler: users-create.main
+  user-create:
+    handler: user-create.main
     events:
       - http:
           path: users

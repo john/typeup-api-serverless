@@ -6,6 +6,7 @@ export async function main(event, context, callback) {
   const data = JSON.parse(event.body);
   const statusId = uuid.v1();
 
+  // base status item
   var statusItem ={
     statusId: statusId,
     cognitoIdentityId: event.requestContext.identity.cognitoIdentityId,
@@ -16,7 +17,19 @@ export async function main(event, context, callback) {
     attachment: data.attachment,
     createdAt: new Date().toISOString(),
   }
-
+  
+  // update if there's content
+  if( data.content ) {
+    statusItem.content = data.content
+    userAttributeValues[":c"] = data.content
+  }
+  
+  // create params
+  const status_params = {
+    TableName: 'statuses',
+    Item: statusItem,
+  };
+  
   var userUpdateExpression = 'set last_status_id=:sid, last_status_title = :t, last_status_content = :c, last_status_createdAt = :ca, last_status_attachment = :lsa'
   var userAttributeValues = {
     ":sid": statusId,
@@ -26,15 +39,7 @@ export async function main(event, context, callback) {
     ":lsa": data.attachment,
   }
 
-  if( data.content ) {
-    statusItem.content = data.content
-    userAttributeValues[":c"] = data.content
-  }
-
-  const status_params = {
-    TableName: 'statuses',
-    Item: statusItem,
-  };
+  
 
   const user_update_params = {
     TableName: 'users',

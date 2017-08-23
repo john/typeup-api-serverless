@@ -3,16 +3,17 @@ import { success, failure } from './libs/response-lib';
 
 export async function main(event, context, callback) {
 
-  const statusId = event.pathParameters.statusId;
-  const status_params = {
-    TableName: 'statuses',
+  const userName = decodeURIComponent(event.pathParameters.userName);
+  console.log("userName: " + userName);
+  const user_params = {
+    TableName: 'users',
     Key: {
-      statusId: statusId,
+      userName: userName,
     },
   };
 
   try {
-    const result = await dynamoDbLib.call('get', status_params);
+    const result = await dynamoDbLib.call('get', user_params);
     if (result.Item) {
       callback(null, success(result.Item));
     } else {

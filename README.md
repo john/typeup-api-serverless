@@ -33,7 +33,8 @@ npm install serverless-webpack --save-dev
 ### Tests
 
 - `serverless webpack invoke --function status-create --path mocks/status-create-event.json`
-- `serverless webpack invoke --function status-create --path mocks/status-create-event.json`
+- `serverless webpack invoke --function status-get --path mocks/status-get-event.json`
+- `serverless webpack invoke --function user-get --path mocks/user-get-event.json --stage prod`
 
 ## Deploy
 - Make sure credentials are set up. If you have a ~/.aws/credentials file, make sure it has a default value. To create that file, run:
@@ -42,6 +43,10 @@ npm install serverless-webpack --save-dev
 - In working directory, run:
 - `serverless deploy --stage prod`
 - For more info see: http://serverless-stack.com/chapters/deploy-the-apis.html
+
+###
+- To remove the app (deletes all tables, lambdas, and buckets, forever):
+`serverless remove --stage prod `
 
 
 ### TODO
