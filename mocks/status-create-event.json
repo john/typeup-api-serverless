@@ -1,5 +1,5 @@
 {
-  "body": "{\"title\":\"the title\",\"userName\":\"john\",\"userState\":\"i am so blocked.\",\"content\":\"hello world\",\"attachment\":\"hello.jpg\"}",
+  "body": "{\"userId\":\"0026a4e0-8860-11e7-b571-8b49e5dc59ca\",\"title\":\"the title\",\"userName\":\"john\",\"userState\":\"i am so blocked.\",\"content\":\"hello world\",\"attachment\":\"hello.jpg\"}",
   "requestContext": {
     "identity": {
       "cognitoIdentityId": "us-west-2:b7fde2bd-857e-4167-852a-6c199bc1d165"

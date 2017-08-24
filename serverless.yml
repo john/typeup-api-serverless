@@ -29,7 +29,7 @@ provider:
 
 resources:
   Resources:
-        
+
     statusesTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -43,30 +43,29 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-          
+
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: users
         AttributeDefinitions:
-          - AttributeName: userName
+          - AttributeName: userId
             AttributeType: S
         KeySchema:
-          - AttributeName: userName
+          - AttributeName: userId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-          
+
     attachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: attachments345-${opt:stage}
         AccessControl: 'PublicReadWrite'
-  
-        #   S3 bucket
-        #   Cognito user pool (current pool arn: arn:aws:cognito-idp:us-west-2:402153944964:userpool/us-west-2_7TooDx4yJ)
-        #   Cognito App client (current id: 2sdk53svubdtll8gigcscjb0an)
+
+    #   Cognito user pool (current pool arn: arn:aws:cognito-idp:us-west-2:402153944964:userpool/us-west-2_7TooDx4yJ)
+    #   Cognito App client (current id: 2sdk53svubdtll8gigcscjb0an)
 
 functions:
 
@@ -118,17 +117,17 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
-  
+
   # GET /users/{userName}
   user-get:
     handler: user-get.main
     events:
       - http:
-          path: users/{userName}
+          path: users/{userId}
           method: get
           cors: true
           authorizer: aws_iam
-          
+
   # GET /users
   user-list:
     handler: user-list.main

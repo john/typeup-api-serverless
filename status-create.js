@@ -17,20 +17,8 @@ export async function main(event, context, callback) {
     attachment: data.attachment,
     createdAt: new Date().toISOString(),
   }
-  
-  // update if there's content
-  if( data.content ) {
-    statusItem.content = data.content
-    userAttributeValues[":c"] = data.content
-  }
-  
-  // create params
-  const status_params = {
-    TableName: 'statuses',
-    Item: statusItem,
-  };
-  
-  var userUpdateExpression = 'set last_status_id=:sid, last_status_title = :t, last_status_content = :c, last_status_createdAt = :ca, last_status_attachment = :lsa'
+
+  var userUpdateExpression = 'set lastStatusId=:sid, lastStatusTitle = :t, lastStatusContent = :c, lastStatusCreatedAt = :ca, lastStatusAttachment = :lsa'
   var userAttributeValues = {
     ":sid": statusId,
     ":t": data.title,
@@ -39,12 +27,21 @@ export async function main(event, context, callback) {
     ":lsa": data.attachment,
   }
 
-  
+  // update status & user data if there's content
+  if( data.content ) {
+    statusItem.content = data.content
+    userAttributeValues[":c"] = data.content
+  }
+
+  const status_params = {
+    TableName: 'statuses',
+    Item: statusItem,
+  };
 
   const user_update_params = {
     TableName: 'users',
     Key: {
-      userName: data.userName,
+      userId: data.userId,
     },
     UpdateExpression: userUpdateExpression,
     ExpressionAttributeValues: userAttributeValues,

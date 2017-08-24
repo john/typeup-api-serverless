@@ -3,12 +3,11 @@ import { success, failure } from './libs/response-lib';
 
 export async function main(event, context, callback) {
 
-  const userName = decodeURIComponent(event.pathParameters.userName);
-  console.log("userName: " + userName);
+  const userId = event.pathParameters.userId;
   const user_params = {
     TableName: 'users',
     Key: {
-      userName: userName,
+      userId: userId,
     },
   };
 

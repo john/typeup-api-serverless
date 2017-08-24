@@ -32,9 +32,10 @@ npm install serverless-webpack --save-dev
 
 ### Tests
 
-- `serverless webpack invoke --function status-create --path mocks/status-create-event.json`
-- `serverless webpack invoke --function status-get --path mocks/status-get-event.json`
+- `serverless webpack invoke --function status-create --path mocks/status-create-event.json --stage prod`
+- `serverless webpack invoke --function status-get --path mocks/status-get-event.json --stage prod`
 - `serverless webpack invoke --function user-get --path mocks/user-get-event.json --stage prod`
+- `serverless webpack invoke --function user-create --path mocks/user-create-event.json --stage prod`
 
 ## Deploy
 - Make sure credentials are set up. If you have a ~/.aws/credentials file, make sure it has a default value. To create that file, run:
