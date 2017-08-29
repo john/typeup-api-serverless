@@ -5,9 +5,9 @@
 ### Setup
 - create dynamodb tables
   - 'users' has index on userId
-  - 'statuses' has index on
+  - 'statuses' has index on statusId, and a secondary index on userId (verify that's necessary).
 - create an S3 bucket for uploads. Make sure CORS settings are correct.
-  - Install packages:
+- Install packages:
   - npm init -y
   - npm install serverless-webpack --save-dev
   - npm install aws-sdk --save-dev
