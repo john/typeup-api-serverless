@@ -5,20 +5,15 @@
 ### Setup
 - create dynamodb tables
   - 'users' has index on userId
-  - 'statuses' has index on
-
-- npm install serverless@1.19.0 -g
-
-npm install serverless-webpack --save-dev
-?
-
-- npm init -y
-- npm install aws-sdk --save-dev
-
-- npm install amazon-cognito-identity-js --save
-
-- npm install uuid --save
-- npm install --save-dev \
+  - 'statuses' has index on statusId, and a secondary index on userId (verify that's necessary).
+- create an S3 bucket for uploads. Make sure CORS settings are correct.
+- Install packages:
+  - npm init -y
+  - npm install serverless-webpack --save-dev
+  - npm install aws-sdk --save-dev
+  - npm install amazon-cognito-identity-js --save
+  - npm install uuid --save
+  - npm install --save-dev \
     babel-core \
     babel-loader \
     babel-plugin-transform-runtime \
