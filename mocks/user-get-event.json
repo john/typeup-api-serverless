@@ -1,6 +1,6 @@
 {
   "pathParameters": {
-    "userName": "john@fnnny.com"
+    "userId": "f0af55e0-8af6-11e7-9258-d5c1a88725c7"
   },
   "requestContext": {
     "identity": {

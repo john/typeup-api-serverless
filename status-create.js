@@ -10,7 +10,7 @@ export async function main(event, context, callback) {
   var statusItem ={
     statusId: statusId,
     cognitoIdentityId: event.requestContext.identity.cognitoIdentityId,
-    userName: data.userName,
+    userId: data.userId,
     title: data.title,
     content: null,
     userState: data.userState,

@@ -1,3 +1,5 @@
+# serverless deploy --state prod
+
 service: typeup-app-api
 
 plugins:
@@ -63,6 +65,13 @@ resources:
       Properties:
         BucketName: attachments345-${opt:stage}
         AccessControl: 'PublicReadWrite'
+        # https://github.com/matthewdfuller/cloudformation-templates/blob/master/infrastructure/S3.json
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders: *
+            - AllowedMethods: *
+            - AllowedOrigins: *
+            - MaxAge: 3000
 
     #   Cognito user pool (current pool arn: arn:aws:cognito-idp:us-west-2:402153944964:userpool/us-west-2_7TooDx4yJ)
     #   Cognito App client (current id: 2sdk53svubdtll8gigcscjb0an)
@@ -79,22 +88,22 @@ functions:
           cors: true
           authorizer: aws_iam
 
-  # GET /statuses/{statusId}
-  status-get:
-    handler: status-get.main
-    events:
-      - http:
-          path: statuses/{statusId}
-          method: get
-          cors: true
-          authorizer: aws_iam
-
   # GET /statuses
   status-list:
     handler: status-list.main
     events:
       - http:
           path: statuses
+          method: get
+          cors: true
+          authorizer: aws_iam
+
+  # GET /statuses/{statusId}
+  status-get:
+    handler: status-get.main
+    events:
+      - http:
+          path: statuses/{statusId}
           method: get
           cors: true
           authorizer: aws_iam
@@ -108,23 +117,13 @@ functions:
           method: put
           cors: true
 
-  # DELETE /statuses/{statusId}
-  status-delete:
-    handler: status-delete.main
+  # POST /users
+  user-create:
+    handler: user-create.main
     events:
       - http:
-          path: statuses/{statusId}
-          method: delete
-          cors: true
-          authorizer: aws_iam
-
-  # GET /users/{userName}
-  user-get:
-    handler: user-get.main
-    events:
-      - http:
-          path: users/{userId}
-          method: get
+          path: users
+          method: post
           cors: true
           authorizer: aws_iam
 
@@ -138,12 +137,33 @@ functions:
           cors: true
           authorizer: aws_iam
 
-  # POST /users
-  user-create:
-    handler: user-create.main
+  # GET /users/{userName}
+  user-get:
+    handler: user-get.main
     events:
       - http:
-          path: users
-          method: post
+          path: users/{userId}
+          method: get
           cors: true
           authorizer: aws_iam
+
+  # GET /users/{userName}/statuses
+  user-statuses:
+    handler: user-statuses.main
+    events:
+      - http:
+          path: users/{userId}/statuses
+          method: get
+          cors: true
+          authorizer: aws_iam
+
+  # DELETE /statuses/{statusId}
+  status-delete:
+    handler: status-delete.main
+    events:
+      - http:
+          path: statuses/{statusId}
+          method: delete
+          cors: true
+          authorizer: aws_iam
+

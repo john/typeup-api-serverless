@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -153,13 +153,16 @@ function buildResponse(statusCode, body) {
 module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = require("uuid");
-
-/***/ }),
-/* 7 */
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -180,96 +183,53 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var main = exports.main = function () {
   var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(event, context, callback) {
-    var data, statusId, statusItem, userUpdateExpression, userAttributeValues, status_params, user_update_params, status_result, user_result;
+    var userId, user_params, result;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            data = JSON.parse(event.body);
-            statusId = _uuid2.default.v1();
-
-            // base status item
-
-            statusItem = {
-              statusId: statusId,
-              cognitoIdentityId: event.requestContext.identity.cognitoIdentityId,
-              userId: data.userId,
-              title: data.title,
-              content: null,
-              userState: data.userState,
-              attachment: data.attachment,
-              createdAt: new Date().toISOString()
-            };
-            userUpdateExpression = 'set lastStatusId=:sid, lastStatusTitle = :t, lastStatusContent = :c, lastStatusCreatedAt = :ca, lastStatusAttachment = :lsa';
-            userAttributeValues = {
-              ":sid": statusId,
-              ":t": data.title,
-              ":c": null,
-              ":ca": new Date().toISOString(),
-              ":lsa": data.attachment
-
-              // update status & user data if there's content
-            };
-            if (data.content) {
-              statusItem.content = data.content;
-              userAttributeValues[":c"] = data.content;
-            }
-
-            status_params = {
+            userId = event.pathParameters.userId;
+            user_params = {
               TableName: 'statuses',
-              Item: statusItem
+              KeyConditionExpression: "userId = :userId",
+              ExpressionAttributeValues: {
+                ":userId": userId
+              }
             };
-            user_update_params = {
-              TableName: 'users',
-              Key: {
-                userId: data.userId
-              },
-              UpdateExpression: userUpdateExpression,
-              ExpressionAttributeValues: userAttributeValues,
-              ReturnValues: "UPDATED_NEW"
+            _context.prev = 2;
+            _context.next = 5;
+            return dynamoDbLib.call('query', user_params);
 
-              // separate failure statuses for user vs status
-            };
-            _context.prev = 8;
-            _context.next = 11;
-            return dynamoDbLib.call('put', status_params);
+          case 5:
+            result = _context.sent;
 
-          case 11:
-            status_result = _context.sent;
-            _context.next = 14;
-            return dynamoDbLib.call('update', user_update_params);
-
-          case 14:
-            user_result = _context.sent;
-
-
-            callback(null, (0, _responseLib.success)(status_params.Item));
-            _context.next = 22;
+            if (result.Items) {
+              callback(null, (0, _responseLib.success)(result.Items));
+            } else {
+              callback(null, (0, _responseLib.failure)({ status: false, error: 'Item not found.' }));
+            }
+            _context.next = 13;
             break;
 
-          case 18:
-            _context.prev = 18;
-            _context.t0 = _context['catch'](8);
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context['catch'](2);
 
             console.log(_context.t0);
             callback(null, (0, _responseLib.failure)({ status: false }));
 
-          case 22:
+          case 13:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[8, 18]]);
+    }, _callee, this, [[2, 9]]);
   }));
 
   return function main(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
 }();
-
-var _uuid = __webpack_require__(6);
-
-var _uuid2 = _interopRequireDefault(_uuid);
 
 var _dynamodbLib = __webpack_require__(2);
 
