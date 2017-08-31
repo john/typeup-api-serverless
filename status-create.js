@@ -32,9 +32,10 @@ export async function main(event, context, callback) {
     statusItem.content = data.content
     userAttributeValues[":c"] = data.content
   }
-
+  
+  const tableName = 'typeup-statuses-' + process.env.stage;
   const status_params = {
-    TableName: 'statuses',
+    TableName: tableName,
     Item: statusItem,
   };
 
@@ -60,5 +61,4 @@ export async function main(event, context, callback) {
     console.log(e);
     callback(null, failure({status: false}));
   }
-
 };

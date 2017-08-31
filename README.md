@@ -3,10 +3,14 @@
 - This demo is indebted to http://serverless-stack.com/. Thanks guys!
 
 ### Setup
+
+// maybe can remove this, serverless.yml should be creating the files
 - create dynamodb tables
   - 'users' has index on userId
   - 'statuses' has index on statusId, and a secondary index on userId (verify that's necessary).
 - create an S3 bucket for uploads. Make sure CORS settings are correct.
+
+
 - Install packages:
   - npm init -y
   - npm install serverless-webpack --save-dev
@@ -26,12 +30,14 @@
 - npm install --save babel-runtime
 
 ### Tests
-
-- `serverless webpack invoke --function status-create --path mocks/status-create-event.json --stage prod`
-- `serverless webpack invoke --function status-get --path mocks/status-get-event.json --stage prod`
-- `serverless webpack invoke --function user-get --path mocks/user-get-event.json --stage prod`
-- `serverless webpack invoke --function user-create --path mocks/user-create-event.json --stage prod`
-- `serverless webpack invoke --function user-statuses --path mocks/user-get-event.json --stage prod`
+- Deploy test env:
+  - `serverless deploy --stage test`
+- To run test independently:
+  - `serverless webpack invoke --function status-create --path mocks/status-create-event.json --stage test`
+  - `serverless webpack invoke --function status-get --path mocks/status-get-event.json --stage test`
+  - `serverless webpack invoke --function user-create --path mocks/user-create-event.json --stage test`
+  - `serverless webpack invoke --function user-get --path mocks/user-get-event.json --stage test`
+  - `serverless webpack invoke --function user-statuses --path mocks/user-get-event.json --stage test`
 
 ## Deploy
 - Make sure credentials are set up. If you have a ~/.aws/credentials file, make sure it has a default value. To create that file, run:

@@ -2,10 +2,10 @@ import * as dynamoDbLib from './libs/dynamodb-lib';
 import { success, failure } from './libs/response-lib';
 
 export async function main(event, context, callback) {
-
+  const tableName = 'typeup-users-' + process.env.stage;
   const userId = event.pathParameters.userId;
   const user_params = {
-    TableName: 'users',
+    TableName: tableName,
     Key: {
       userId: userId,
     },
@@ -22,5 +22,4 @@ export async function main(event, context, callback) {
     console.log(e);
     callback(null, failure({status: false}));
   }
-
 };

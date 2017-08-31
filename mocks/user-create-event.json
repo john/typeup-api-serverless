@@ -1,5 +1,5 @@
 {
-  "body": "{\"userName\": \"john@fnnny.com\", \"email\": \"john@fnnny.com\", \"name\": \"bob\"}",
+  "body": "{\"userName\": \"john@fnnny.com\", \"email\": \"john@fnnny.com\", \"name\": \"John Test\"}",
   "requestContext": {
     "identity": {
       "cognitoIdentityId": "us-west-2:b7fde2bd-857e-4167-852a-6c199bc1d165"

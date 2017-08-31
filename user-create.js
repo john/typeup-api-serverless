@@ -3,10 +3,11 @@ import * as dynamoDbLib from './libs/dynamodb-lib';
 import { success, failure } from './libs/response-lib';
 
 export async function main(event, context, callback) {
-
+  console.log("--------------------------> AAARGH");
   const data = JSON.parse(event.body);
+  const tableName = 'typeup-users-' + process.env.stage;
   const params = {
-    TableName: 'users',
+    TableName: tableName,
     Item: {
       userId: uuid.v1(),
       userName: data.userName,

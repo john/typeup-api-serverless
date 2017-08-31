@@ -1,6 +1,7 @@
 # serverless deploy --state prod
 
 service: typeup-app-api
+# stage: test # this can be overriden, but the default lets test run without a --stage flag
 
 plugins:
   - serverless-webpack
@@ -11,8 +12,10 @@ custom:
 provider:
   name: aws
   runtime: nodejs6.10
-  stage: prod
+  # stage: ${opt:stage}
   region: us-west-2
+  environment:
+    stage: ${opt:stage}
 
   # 'iamRoleStatement' defines the permission policy for the Lambda function.
   # In this case Lambda functions are granted with permissions to access DynamoDB.
@@ -28,14 +31,13 @@ provider:
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:us-west-2:*:*"
 
-
 resources:
   Resources:
 
     statusesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: statuses
+        TableName: typeup-statuses-${opt:stage}
         AttributeDefinitions:
           - AttributeName: statusId
             AttributeType: S
@@ -49,7 +51,7 @@ resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: users
+        TableName: typeup-users-${opt:stage}
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: S
@@ -63,15 +65,15 @@ resources:
     attachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: attachments345-${opt:stage}
+        BucketName: typeup-attachments-${opt:stage}
         AccessControl: 'PublicReadWrite'
         # https://github.com/matthewdfuller/cloudformation-templates/blob/master/infrastructure/S3.json
-        CorsConfiguration:
-          CorsRules:
-            - AllowedHeaders: *
-            - AllowedMethods: *
-            - AllowedOrigins: *
-            - MaxAge: 3000
+        # CorsConfiguration:
+        #   CorsRules:
+        #     - AllowedHeaders: *
+        #     - AllowedMethods: *
+        #     - AllowedOrigins: *
+        #     - MaxAge: 3000
 
     #   Cognito user pool (current pool arn: arn:aws:cognito-idp:us-west-2:402153944964:userpool/us-west-2_7TooDx4yJ)
     #   Cognito App client (current id: 2sdk53svubdtll8gigcscjb0an)

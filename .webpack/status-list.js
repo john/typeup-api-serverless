@@ -178,42 +178,43 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var main = exports.main = function () {
   var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(event, context, callback) {
-    var params, result;
+    var tableName, params, result;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            tableName = 'typeup-statuses-' + process.env.stage;
             params = {
-              TableName: 'statuses',
+              TableName: tableName,
               KeyConditionExpression: "userId = :userId",
               ExpressionAttributeValues: {
                 ":userId": event.requestContext.identity.cognitoIdentityId
               }
             };
-            _context.prev = 1;
-            _context.next = 4;
+            _context.prev = 2;
+            _context.next = 5;
             return dynamoDbLib.call('query', params);
 
-          case 4:
+          case 5:
             result = _context.sent;
 
             callback(null, (0, _responseLib.success)(result.Items));
-            _context.next = 12;
+            _context.next = 13;
             break;
 
-          case 8:
-            _context.prev = 8;
-            _context.t0 = _context['catch'](1);
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context['catch'](2);
 
             console.log(_context.t0);
             callback(null, (0, _responseLib.failure)({ status: false }));
 
-          case 12:
+          case 13:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[1, 8]]);
+    }, _callee, this, [[2, 9]]);
   }));
 
   return function main(_x, _x2, _x3) {

@@ -181,23 +181,24 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var main = exports.main = function () {
   var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(event, context, callback) {
-    var userId, user_params, result;
+    var tableName, userId, user_params, result;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            tableName = 'typeup-users-' + process.env.stage;
             userId = event.pathParameters.userId;
             user_params = {
-              TableName: 'users',
+              TableName: tableName,
               Key: {
                 userId: userId
               }
             };
-            _context.prev = 2;
-            _context.next = 5;
+            _context.prev = 3;
+            _context.next = 6;
             return dynamoDbLib.call('get', user_params);
 
-          case 5:
+          case 6:
             result = _context.sent;
 
             if (result.Item) {
@@ -205,22 +206,22 @@ var main = exports.main = function () {
             } else {
               callback(null, (0, _responseLib.failure)({ status: false, error: 'Item not found.' }));
             }
-            _context.next = 13;
+            _context.next = 14;
             break;
 
-          case 9:
-            _context.prev = 9;
-            _context.t0 = _context['catch'](2);
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context['catch'](3);
 
             console.log(_context.t0);
             callback(null, (0, _responseLib.failure)({ status: false }));
 
-          case 13:
+          case 14:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[2, 9]]);
+    }, _callee, this, [[3, 10]]);
   }));
 
   return function main(_x, _x2, _x3) {

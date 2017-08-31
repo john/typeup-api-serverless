@@ -2,8 +2,9 @@ import * as dynamoDbLib from './libs/dynamodb-lib';
 import { success, failure } from './libs/response-lib';
 
 export async function main(event, context, callback) {
+  const tableName = 'typeup-statuses-' + process.env.stage;
   const params = {
-    TableName: 'statuses',
+    TableName: tableName,
     Key: {
       userId: event.requestContext.identity.cognitoIdentityId,
       statusId: event.pathParameters.id,

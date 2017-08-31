@@ -6,9 +6,9 @@ export async function main(event, context, callback) {
 
   // NEED to update both statuses & user. This may never get used, right now the client just creates
   // a new status, which updates the user.
-
+  const tableName = 'typeup-statuses-' + process.env.stage;
   const params = {
-    TableName: 'statuses',
+    TableName: tableName,
     Key: {
       statusId: statusId,
     },

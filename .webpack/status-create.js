@@ -180,7 +180,7 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var main = exports.main = function () {
   var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(event, context, callback) {
-    var data, statusId, statusItem, userUpdateExpression, userAttributeValues, status_params, user_update_params, status_result, user_result;
+    var data, statusId, statusItem, userUpdateExpression, userAttributeValues, tableName, status_params, user_update_params, status_result, user_result;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -215,8 +215,9 @@ var main = exports.main = function () {
               userAttributeValues[":c"] = data.content;
             }
 
+            tableName = 'typeup-statuses-' + process.env.stage;
             status_params = {
-              TableName: 'statuses',
+              TableName: tableName,
               Item: statusItem
             };
             user_update_params = {
@@ -230,36 +231,36 @@ var main = exports.main = function () {
 
               // separate failure statuses for user vs status
             };
-            _context.prev = 8;
-            _context.next = 11;
+            _context.prev = 9;
+            _context.next = 12;
             return dynamoDbLib.call('put', status_params);
 
-          case 11:
+          case 12:
             status_result = _context.sent;
-            _context.next = 14;
+            _context.next = 15;
             return dynamoDbLib.call('update', user_update_params);
 
-          case 14:
+          case 15:
             user_result = _context.sent;
 
 
             callback(null, (0, _responseLib.success)(status_params.Item));
-            _context.next = 22;
+            _context.next = 23;
             break;
 
-          case 18:
-            _context.prev = 18;
-            _context.t0 = _context['catch'](8);
+          case 19:
+            _context.prev = 19;
+            _context.t0 = _context['catch'](9);
 
             console.log(_context.t0);
             callback(null, (0, _responseLib.failure)({ status: false }));
 
-          case 22:
+          case 23:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[8, 18]]);
+    }, _callee, this, [[9, 19]]);
   }));
 
   return function main(_x, _x2, _x3) {
