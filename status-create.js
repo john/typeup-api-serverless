@@ -33,14 +33,15 @@ export async function main(event, context, callback) {
     userAttributeValues[":c"] = data.content
   }
   
-  const tableName = 'typeup-statuses-' + process.env.stage;
-  const status_params = {
-    TableName: tableName,
+  const statusTableName = 'typeup-statuses-' + process.env.stage;
+  const statusParams = {
+    TableName: statusTableName,
     Item: statusItem,
   };
-
-  const user_update_params = {
-    TableName: 'users',
+  
+  const userTableName = 'typeup-users-' + process.env.stage;
+  const userUpdateParams = {
+    TableName: userTableName,
     Key: {
       userId: data.userId,
     },
@@ -51,12 +52,14 @@ export async function main(event, context, callback) {
 
   // separate failure statuses for user vs status
   try {
-    const status_result = await dynamoDbLib.call('put', status_params);
-
+    
+    // TODO: Add rollback on failure.
+    const statusResult = await dynamoDbLib.call('put', statusParams);
+    
     // make this dependent on the above returning successfully
-    const user_result = await dynamoDbLib.call('update', user_update_params);
+    const userResult = await dynamoDbLib.call('update', userUpdateParams);
 
-    callback(null, success(status_params.Item));
+    callback(null, success(statusParams.Item));
   } catch(e) {
     console.log(e);
     callback(null, failure({status: false}));

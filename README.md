@@ -1,18 +1,19 @@
 # typeup-api-serverless
 
-- This demo is indebted to http://serverless-stack.com/. Thanks guys!
+This repo demonstrates an API built with the [Serverless](https://serverless.com/) framework. Serverless facilitates the building of APIs and apps using AWS Lambdas and the AWS API Gateway. It also allows for the creation and configuration of related AWS infrastructure, such as DynamoDB tables.
+
+This demo is an API to let team membes give daily status reports, similar to what you would do in an agile stand up meeting, but for distributed teams. It was inspired by the excellent Serverless demo over at [Serverless Stack](http://serverless-stack.com/). Thanks guys!
 
 ### Setup
 
-// maybe can remove this, serverless.yml should be creating the files
-- create dynamodb tables
-  - 'users' has index on userId
-  - 'statuses' has index on statusId, and a secondary index on userId (verify that's necessary).
-- create an S3 bucket for uploads. Make sure CORS settings are correct.
-
-
+- Clone the repo into a local directory:
+  - `git clone git@github.com:john/typeup-api-serverless.git`
+  - `cd typeup-api-serverless`
+- The app has been tested to work with node 8.4.0 and Serverless 1.21
+- If you haven't already, install node and npm. Guide for installation on Mac [here](https://treehouse.github.io/installation-guides/mac/node-mac.html)
 - Install packages:
   - npm init -y
+  - npm install serverless -g
   - npm install serverless-webpack --save-dev
   - npm install aws-sdk --save-dev
   - npm install amazon-cognito-identity-js --save
@@ -28,6 +29,10 @@
     webpack \
     webpack-node-externals
 - npm install --save babel-runtime
+- Make sure you have an active AWS account with valid credentials set up. For more info see the [AWS Quick Configuration guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-quick-configuration).
+
+### Client configuration
+Deployment of the API creates an API Gateway endpoint, two DynamoDB tables, and an S3 bucket. When installing and configuring the [TypeUp client](https://github.com/john/typeup-client) to use the API, you'll need to enter the endpoint into the client configuration.
 
 ### Tests
 - Deploy test env:
@@ -44,16 +49,16 @@
 `serverless config credentials --provider aws --key your-key-here --secret your-secret-here`
 
 - In working directory, run:
-- `serverless deploy --stage prod`
+  - For test env: `serverless deploy --stage test`
+  - For prod env: `serverless deploy --stage prod`
 - For more info see: http://serverless-stack.com/chapters/deploy-the-apis.html
 
-###
-- To remove the app (deletes all tables, lambdas, and buckets, forever):
-`serverless remove --stage prod `
+### Undeploy
+To remove the app (deletes all tables, lambdas, and buckets, forever):
+`serverless remove --stage prod`
 
 
 ### TODO
-
 
 - The client is doing the authing right now. How to protect the API? Actually maybe already done
 - https://aws.amazon.com/blogs/mobile/integrating-amazon-cognito-user-pools-with-api-gateway/
