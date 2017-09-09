@@ -18,11 +18,12 @@ export async function main(event, context, callback) {
     createdAt: new Date().toISOString(),
   }
 
-  var userUpdateExpression = 'set lastStatusId=:sid, lastStatusTitle = :t, lastStatusContent = :c, lastStatusCreatedAt = :ca, lastStatusAttachment = :lsa'
+  var userUpdateExpression = 'set lastStatusId=:sid, lastStatusTitle = :t, lastStatusContent = :c, lastStatusUserState= :us, lastStatusCreatedAt = :ca, lastStatusAttachment = :lsa'
   var userAttributeValues = {
     ":sid": statusId,
     ":t": data.title,
     ":c": null,
+    ":us": data.userState,
     ":ca": new Date().toISOString(),
     ":lsa": data.attachment,
   }
