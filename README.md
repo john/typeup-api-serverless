@@ -1,8 +1,8 @@
 # typeup-api-serverless
 
-This repo demonstrates an API built with the [Serverless](https://serverless.com/) framework. Serverless facilitates the building of APIs and apps using AWS Lambdas and the AWS API Gateway. It also allows for the creation and configuration of related AWS infrastructure, such as DynamoDB tables.
+This repo demonstrates an API built with AWS Lambda and the AWS API Gateway. It uses the [Serverless](https://serverless.com/) framework, and also takes care of the creation and configuration of AWS infrastructure needed to run the demo, such as DynamoDB tables.
 
-This demo is an API to let team membes give daily status reports, similar to what you would do in an agile stand up meeting, but for distributed teams. It was inspired by the excellent Serverless demo over at [Serverless Stack](http://serverless-stack.com/). Thanks guys!
+The API powers an app that allows members of a team to give daily status reports, similar to what you would do in an agile stand up meeting, but for distributed teams--there is [an accompanying React client](https://github.com/john/typeup-client) that uses the API. It code was inspired by the excellent Serverless demo at [Serverless Stack](http://serverless-stack.com/). Thanks guys!
 
 ### Setup
 
