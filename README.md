@@ -4,7 +4,7 @@ This repo demonstrates an API built with the [Serverless](https://serverless.com
 
 This demo is an API to let team membes give daily status reports, similar to what you would do in an agile stand up meeting, but for distributed teams. It was inspired by the excellent Serverless demo over at [Serverless Stack](http://serverless-stack.com/). Thanks guys!
 
-### Setup
+## Setup
 
 - Clone the repo into a local directory:
   - `git clone git@github.com:john/typeup-api-serverless.git`
@@ -31,12 +31,22 @@ This demo is an API to let team membes give daily status reports, similar to wha
 - npm install --save babel-runtime
 - Make sure you have an active AWS account with valid credentials set up. For more info see the [AWS Quick Configuration guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-quick-configuration).
 
-### Client configuration
+## Client configuration
 Deployment of the API creates an API Gateway endpoint, two DynamoDB tables, and an S3 bucket. When installing and configuring the [TypeUp client](https://github.com/john/typeup-client) to use the API, you'll need to enter the endpoint into the client configuration.
 
-### Tests
+## Deploy
+- Make sure credentials are set up. If you have a ~/.aws/credentials file, make sure it has a default value. To create that file, run:
+`serverless config credentials --provider aws --key your-key-here --secret your-secret-here`
+
+- In working directory, run:
+  - For test env: `serverless deploy --stage test --tag {some_unique_value}`
+  - For prod env: `serverless deploy --stage prod --tag {some_unique_value}`
+  Set "some_unique_value" to a... unique value. This is to ensure unique names for S3 buckets created.
+- For more info see: http://serverless-stack.com/chapters/deploy-the-apis.html
+
+## Tests
 - Deploy test env:
-  - `serverless deploy --stage test`
+  - `serverless deploy --stage test --tag {some_unique_value}`
 - To run test independently:
   - `serverless webpack invoke --function status-create --path mocks/status-create-event.json --stage test`
   - `serverless webpack invoke --function status-get --path mocks/status-get-event.json --stage test`
@@ -44,16 +54,7 @@ Deployment of the API creates an API Gateway endpoint, two DynamoDB tables, and 
   - `serverless webpack invoke --function user-get --path mocks/user-get-event.json --stage test`
   - `serverless webpack invoke --function user-statuses --path mocks/user-get-event.json --stage test`
 
-## Deploy
-- Make sure credentials are set up. If you have a ~/.aws/credentials file, make sure it has a default value. To create that file, run:
-`serverless config credentials --provider aws --key your-key-here --secret your-secret-here`
-
-- In working directory, run:
-  - For test env: `serverless deploy --stage test`
-  - For prod env: `serverless deploy --stage prod`
-- For more info see: http://serverless-stack.com/chapters/deploy-the-apis.html
-
-### Undeploy
+## Undeploy
 To remove the app (deletes all tables, lambdas, and buckets, forever):
 `serverless remove --stage prod`
 
