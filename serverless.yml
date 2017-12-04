@@ -65,7 +65,7 @@ resources:
     attachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: typeup-attachments-${opt:stage}
+        BucketName: typeup-attachments-${opt:stage}-${opt:tag, 'foo'}
         AccessControl: 'PublicReadWrite'
         # https://github.com/matthewdfuller/cloudformation-templates/blob/master/infrastructure/S3.json
         # CorsConfiguration:
